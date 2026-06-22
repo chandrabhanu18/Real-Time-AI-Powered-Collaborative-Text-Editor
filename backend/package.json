@@ -1,0 +1,40 @@
+{
+  "name": "collaborative-editor-backend",
+  "version": "1.0.0",
+  "description": "Real-time collaborative text editor backend with WebSocket and AI integration",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "cross-env NODE_ENV=test npx vitest run --root .. --globals --environment node ../tests/intentEngine.test.js ../tests/yjsManager.test.js"
+  },
+  "keywords": [
+    "collaborative-editing",
+    "yjs",
+    "websocket",
+    "ai",
+    "llm"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "yjs": "^13.6.14",
+    "y-websocket": "^1.5.0",
+    "y-protocols": "^1.0.6",
+    "lib0": "^0.2.96",
+    "openai": "^4.24.1",
+    "axios": "^1.6.2",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "vitest": "^1.0.4",
+    "cross-env": "^7.0.3"
+  }
+}

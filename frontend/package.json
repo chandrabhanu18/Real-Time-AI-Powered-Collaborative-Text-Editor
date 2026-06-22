@@ -1,0 +1,48 @@
+{
+  "name": "collaborative-editor-frontend",
+  "version": "1.0.0",
+  "description": "Real-time collaborative text editor frontend with React and Tiptap",
+  "type": "module",
+  "main": "src/main.jsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "keywords": [
+    "collaborative-editing",
+    "yjs",
+    "react",
+    "tiptap",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@tiptap/core": "^2.1.11",
+    "@tiptap/extension-character-count": "^2.1.11",
+    "@tiptap/extension-collaboration": "^2.1.11",
+    "@tiptap/extension-collaboration-cursor": "^2.1.11",
+    "@tiptap/pm": "^2.1.11",
+    "@tiptap/react": "^2.1.11",
+    "@tiptap/starter-kit": "^2.1.11",
+    "axios": "^1.6.2",
+    "lib0": "^0.2.96",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io-client": "^4.7.2",
+    "uuid": "^9.0.1",
+    "y-websocket": "^1.5.0",
+    "yjs": "^13.6.14",
+    "zustand": "^4.4.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "terser": "^5.48.0",
+    "vite": "^5.0.7",
+    "vitest": "^1.0.4"
+  }
+}
