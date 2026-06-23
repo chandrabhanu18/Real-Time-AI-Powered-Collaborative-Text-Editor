@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Collaboration from '@tiptap/extension-collaboration';
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 import * as Y from 'yjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,7 +17,7 @@ const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'
 
 const Editor = ({ docId = 'default-doc' }) => {
   const ydoc = useRef(new Y.Doc());
-  const provider = useRef(null);
+  const provider = useRef(new WSProvider(docId, ydoc.current));
   const [userName] = useState(`User${Math.random().toString(36).substr(2, 5)}`);
   const [userColor] = useState(COLORS[Math.floor(Math.random() * COLORS.length)]);
   const lastKnownGhostTextRef = useRef('');
@@ -31,23 +30,16 @@ const Editor = ({ docId = 'default-doc' }) => {
     incrementRejected,
     setRemoteCursors,
     setContext,
-    setAIPresence
+    setAIPresence,
+    slashMenuOpen,
+    slashMenuPosition
   } = useEditorStore();
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        history: { depth: 100 }
-      }),
+      StarterKit,
       Collaboration.configure({
         document: ydoc.current
-      }),
-      CollaborationCursor.configure({
-        provider: undefined,
-        user: {
-          name: userName,
-          color: userColor
-        }
       }),
       AISuggestionMark
     ],
@@ -69,8 +61,6 @@ const Editor = ({ docId = 'default-doc' }) => {
   useEffect(() => {
     const initProvider = async () => {
       try {
-        provider.current = new WSProvider(docId, ydoc.current);
-        await provider.current.connect();
 
         provider.current.onAwareness(({ type, data }) => {
           if (type === 'awareness' && data) {
@@ -103,6 +93,8 @@ const Editor = ({ docId = 'default-doc' }) => {
     }
   }, [editor, docId, setRemoteCursors]);
 
+  
+
   const updateContext = useCallback((ed) => {
     const { $anchor } = ed.state.selection;
     const text = ed.getText();
@@ -120,7 +112,7 @@ const Editor = ({ docId = 'default-doc' }) => {
   const handleSlashCommand = (ed) => {
     const { $anchor } = ed.state.selection;
     const docText = ed.getText();
-    const beforeCursor = docText.substring(0, $anchor.pos - 1);
+    const beforeCursor = docText.substring(0, $anchor.pos);
 
     const lastNewline = beforeCursor.lastIndexOf('\n');
     const textAfterLastNewline = beforeCursor.substring(lastNewline + 1);
@@ -221,6 +213,20 @@ const Editor = ({ docId = 'default-doc' }) => {
       setAIPresence(false);
     }
   };
+
+  // Ensure test hooks are exposed after functions are defined
+  useEffect(() => {
+    if (typeof window !== 'undefined' && editor) {
+      window.__EDITOR_TEST_HOOKS__ = window.__EDITOR_TEST_HOOKS__ || {};
+      window.__EDITOR_TEST_HOOKS__.editor = editor;
+      window.__EDITOR_TEST_HOOKS__.setGhostText = setGhostText;
+      window.__EDITOR_TEST_HOOKS__.triggerAICompletion = (intent) => triggerAICompletion(intent);
+      window.__EDITOR_TEST_HOOKS__.acceptGhostText = acceptGhostText;
+      window.__EDITOR_TEST_HOOKS__.setAIPresence = setAIPresence;
+      window.__EDITOR_TEST_HOOKS__.getGhostText = () => window.__EDITOR_TEST_HOOKS__.editor ? window.__EDITOR_TEST_HOOKS__.editor.getText() : '';
+    }
+    return () => {};
+  }, [editor, setGhostText, triggerAICompletion, acceptGhostText, setAIPresence]);
 
   if (!editor || !isReady) {
     return (

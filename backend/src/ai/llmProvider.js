@@ -4,14 +4,14 @@ import logger from '../utils/logger.js';
 
 class LLMProvider {
   constructor() {
-    this.provider = process.env.LLM_API_PROVIDER || 'openai';
-    this.apiKey = process.env.LLM_API_KEY;
-    this.baseUrl = process.env.LLM_API_BASE_URL;
-    this.model = process.env.LLM_MODEL || 'gpt-3.5-turbo';
+    this.provider = process.env.LLM_API_PROVIDER || 'ollama';
+    this.apiKey = process.env.LLM_API_KEY || '';
+    this.baseUrl = process.env.LLM_API_BASE_URL || (this.provider === 'ollama' ? 'http://localhost:11434/v1' : '');
+    this.model = process.env.LLM_MODEL || (this.provider === 'ollama' ? 'mistral' : 'gpt-3.5-turbo');
     this.client = null;
-    this.mockMode = !this.apiKey;
+    this.mockMode = this.provider !== 'ollama' && !this.apiKey;
 
-    if (!this.apiKey) {
+    if (this.mockMode) {
       logger.warn('LLM_API_KEY not set, falling back to local mock AI responses');
     }
 
@@ -39,8 +39,14 @@ class LLMProvider {
       if (this.provider === 'openai') {
         return await this.streamOpenAI(prompt, onChunk);
       } else if (this.provider === 'anthropic') {
+        if (!this.apiKey) {
+          throw new Error('LLM_API_KEY is required for Anthropic');
+        }
         return await this.streamAnthropic(prompt, onChunk);
       } else if (this.provider === 'ollama') {
+        if (!this.baseUrl) {
+          throw new Error('LLM_API_BASE_URL must be set for Ollama');
+        }
         return await this.streamOllama(prompt, onChunk);
       } else {
         throw new Error(`Unsupported provider: ${this.provider}`);
@@ -160,15 +166,18 @@ class LLMProvider {
       response.data.on('data', (chunk) => {
         const lines = chunk.toString().split('\n');
         for (const line of lines) {
-          if (line.trim()) {
-            try {
-              const event = JSON.parse(line);
-              if (event.choices?.[0]?.delta?.content) {
-                onChunk(event.choices[0].delta.content);
-              }
-            } catch (e) {
-              // Ignore parse errors
+          const text = line.trim();
+          if (!text) continue;
+          const jsonText = text.replace(/^data:\s*/, '');
+          if (jsonText === '[DONE]') continue;
+
+          try {
+            const event = JSON.parse(jsonText);
+            if (event.choices?.[0]?.delta?.content) {
+              onChunk(event.choices[0].delta.content);
             }
+          } catch (e) {
+            // Ignore parse errors
           }
         }
       });

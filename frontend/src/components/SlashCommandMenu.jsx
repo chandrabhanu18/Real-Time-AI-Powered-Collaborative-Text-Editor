@@ -18,7 +18,7 @@ const SlashCommandMenu = ({ editor, onCommandSelect }) => {
     if (slashMenuOpen && editor) {
       const { $anchor } = editor.state.selection;
       const text = editor.getText();
-      const beforeCursor = text.substring(0, $anchor.pos - 1);
+        const beforeCursor = text.substring(0, $anchor.pos);
       const lastNewline = beforeCursor.lastIndexOf('\n');
       const textAfterLastNewline = beforeCursor.substring(lastNewline + 1);
 
@@ -46,13 +46,13 @@ const SlashCommandMenu = ({ editor, onCommandSelect }) => {
 
       const { $anchor } = editor.state.selection;
       const text = editor.getText();
-      const beforeCursor = text.substring(0, $anchor.pos - 1);
+      const beforeCursor = text.substring(0, $anchor.pos);
       const lastNewline = beforeCursor.lastIndexOf('\n');
 
       // Remove the slash command
       const slashPos = lastNewline + 1;
       editor.chain()
-        .setTextSelection({ from: slashPos + 1, to: $anchor.pos })
+        .setTextSelection({ from: slashPos, to: $anchor.pos })
         .deleteSelection()
         .run();
 
