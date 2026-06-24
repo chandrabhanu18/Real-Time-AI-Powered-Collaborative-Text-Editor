@@ -47,7 +47,12 @@ class LLMProvider {
         if (!this.baseUrl) {
           throw new Error('LLM_API_BASE_URL must be set for Ollama');
         }
-        return await this.streamOllama(prompt, onChunk);
+        try {
+          return await this.streamOllama(prompt, onChunk);
+        } catch (error) {
+          logger.warn(`Ollama streaming failed: ${error.message}, falling back to mock mode`);
+          return await this.streamMock(prompt, onChunk, options);
+        }
       } else {
         throw new Error(`Unsupported provider: ${this.provider}`);
       }
@@ -65,7 +70,6 @@ class LLMProvider {
 
     const mockResponse = `AI suggestion: ${words.join(' ')}.`;
     for (const char of mockResponse) {
-      await new Promise((resolve) => setTimeout(resolve, 5));
       onChunk(char);
     }
   }
@@ -142,25 +146,53 @@ class LLMProvider {
   }
 
   async streamOllama(prompt, onChunk) {
-    const response = await axios.post(
-      `${this.baseUrl}/chat/completions`,
-      {
-        model: this.model,
-        messages: [
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        stream: true
-      },
-      {
-        responseType: 'stream',
-        headers: {
-          'Content-Type': 'application/json'
+    const chatPayload = {
+      model: this.model,
+      messages: [
+        {
+          role: 'user',
+          content: prompt
         }
+      ],
+      stream: true
+    };
+
+    const completionPayload = {
+      model: this.model,
+      prompt,
+      stream: true
+    };
+
+    let response;
+    try {
+      response = await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        chatPayload,
+        {
+          responseType: 'stream',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          timeout: 10000
+        }
+      );
+    } catch (error) {
+      if (error.response?.status === 404 || error.code === 'ECONNABORTED') {
+        response = await axios.post(
+          `${this.baseUrl}/completions`,
+          completionPayload,
+          {
+            responseType: 'stream',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            timeout: 10000
+          }
+        );
+      } else {
+        throw error;
       }
-    );
+    }
 
     return new Promise((resolve, reject) => {
       response.data.on('data', (chunk) => {
@@ -173,8 +205,14 @@ class LLMProvider {
 
           try {
             const event = JSON.parse(jsonText);
-            if (event.choices?.[0]?.delta?.content) {
-              onChunk(event.choices[0].delta.content);
+            const content =
+              event.choices?.[0]?.delta?.content ||
+              event.choices?.[0]?.message?.content ||
+              event.choices?.[0]?.text ||
+              event.output?.[0]?.content?.[0]?.text;
+
+            if (content) {
+              onChunk(content);
             }
           } catch (e) {
             // Ignore parse errors
