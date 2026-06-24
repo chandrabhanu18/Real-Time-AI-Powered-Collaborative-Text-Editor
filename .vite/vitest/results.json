@@ -1,1 +1,1 @@
-{"version":"1.6.1","results":[[":tests/intentEngine.test.js",{"duration":34,"failed":false}],[":tests/yjsManager.test.js",{"duration":57,"failed":false}]]}
+{"version":"1.6.1","results":[[":tests/intentEngine.test.js",{"duration":24,"failed":false}],[":tests/yjsManager.test.js",{"duration":20,"failed":false}]]}

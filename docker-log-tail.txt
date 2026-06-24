@@ -1,0 +1,188 @@
+﻿[2026-06-24T10:09:28.546669700Z][com.docker.backend.exe.ipc][W] (2f64ed99-2679) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0010429s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:28.586085200Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:28.584684107Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:28.648201800Z][com.docker.backend.exe.ipc] (2f64ed99-2680) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:29.648605500Z][com.docker.backend.exe.ipc][W] (2f64ed99-2680) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004037s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:29.648605500Z][com.docker.backend.exe.enginedependencies] still waiting for init control API to respond after 55m43.5030911s
+[2026-06-24T10:09:29.684075600Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:29.683730980Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:29.749679200Z][com.docker.backend.exe.ipc] (2f64ed99-2681) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:30.684560300Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:30.684659156Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:30.749983500Z][com.docker.backend.exe.ipc][W] (2f64ed99-2681) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0003043s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:30.850531900Z][com.docker.backend.exe.ipc] (2f64ed99-2682) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:31.784272400Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:31.784117229Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:31.851024500Z][com.docker.backend.exe.ipc][W] (2f64ed99-2682) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004926s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:31.951876600Z][com.docker.backend.exe.ipc] (2f64ed99-2683) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:32.884762800Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:32.884243402Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:32.952311600Z][com.docker.backend.exe.ipc][W] (2f64ed99-2683) 38beee43-engines C<-S ConnectionClosed GET /ping (1.000435s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:33.052754600Z][com.docker.backend.exe.ipc] (2f64ed99-2684) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:33.984988700Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:33.984735976Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:34.053137800Z][com.docker.backend.exe.ipc][W] (2f64ed99-2684) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0003832s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:34.157786300Z][com.docker.backend.exe.ipc] (2f64ed99-2685) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:34.522412400Z][com.docker.backend.exe.apiproxy] still waiting for the engine to respond to _ping after 1m51.1545123s: HTTP 500: 
+[2026-06-24T10:09:35.084635700Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:35.084156949Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:35.158048200Z][com.docker.backend.exe.ipc][W] (2f64ed99-2685) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0002619s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:35.158048200Z][com.docker.backend.exe.enginedependencies] still waiting for init control API to respond after 55m49.0125338s
+[2026-06-24T10:09:35.258711300Z][com.docker.backend.exe.ipc] (2f64ed99-2686) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:36.185043000Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:36.184588922Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:36.259112900Z][com.docker.backend.exe.ipc][W] (2f64ed99-2686) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004016s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:36.359804500Z][com.docker.backend.exe.ipc] (2f64ed99-2687) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:37.164387900Z][com.docker.backend.exe.ipc] (fc101646-572) 690a9c4b-BackendAPI S->C 8fec974b-desktop_extensions GET /forwards/list (2m0.0009832s): []
+[2026-06-24T10:09:37.181417600Z][com.docker.backend.exe.ipc][W] (fc101646-594) 8fec974b-desktop_extensions C<-S ConnectionClosed GET /forwards/list (10.0002799s): Get "http://ipc/forwards/list": context deadline exceeded
+[2026-06-24T10:09:37.181417600Z][com.docker.backend.exe.extensions] Get "http://ipc/forwards/list": context deadline exceeded
+[2026-06-24T10:09:37.182118100Z][com.docker.backend.exe.ipc] (fc101646-596) 8fec974b-desktop_extensions C->S desktop_extensions GET /forwards/list
+[2026-06-24T10:09:37.182981200Z][com.docker.backend.exe.ipc] (fc101646-596) 690a9c4b-BackendAPI S<-C 8fec974b-desktop_extensions GET /forwards/list
+[2026-06-24T10:09:37.284583500Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:37.284678110Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:37.360510100Z][com.docker.backend.exe.ipc][W] (2f64ed99-2687) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0007056s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:37.461482500Z][com.docker.backend.exe.ipc] (2f64ed99-2688) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:38.384395300Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:38.384226197Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:38.461915300Z][com.docker.backend.exe.ipc][W] (2f64ed99-2688) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004328s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:38.562516700Z][com.docker.backend.exe.ipc] (2f64ed99-2689) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:39.484184700Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:39.484602084Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:39.562826200Z][com.docker.backend.exe.ipc][W] (2f64ed99-2689) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0003095s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:39.663521100Z][com.docker.backend.exe.ipc] (2f64ed99-2690) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:40.584783900Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:40.584321471Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:40.663963600Z][com.docker.backend.exe.ipc][W] (2f64ed99-2690) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004425s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:40.663963600Z][com.docker.backend.exe.enginedependencies] still waiting for init control API to respond after 55m54.5184492s
+[2026-06-24T10:09:40.764699000Z][com.docker.backend.exe.ipc] (2f64ed99-2691) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:41.683676100Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:41.684491058Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:41.764734600Z][com.docker.backend.exe.ipc][W] (2f64ed99-2691) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0000356s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:41.866041900Z][com.docker.backend.exe.ipc] (2f64ed99-2692) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:42.784194700Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:42.783797545Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:42.866086100Z][com.docker.backend.exe.ipc][W] (2f64ed99-2692) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0000442s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:42.967138900Z][com.docker.backend.exe.ipc] (2f64ed99-2693) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:43.785179100Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:43.784720234Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:43.967369200Z][com.docker.backend.exe.ipc][W] (2f64ed99-2693) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0002303s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:44.068371800Z][com.docker.backend.exe.ipc] (2f64ed99-2694) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:44.624717300Z][com.docker.backend.exe.apiproxy] still waiting for the engine to respond to _ping after 2m1.2568172s: HTTP 500: 
+[2026-06-24T10:09:44.782566000Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:44.785538706Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:45.068697900Z][com.docker.backend.exe.ipc][W] (2f64ed99-2694) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0003261s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:45.169468900Z][com.docker.backend.exe.ipc] (2f64ed99-2695) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:45.884348500Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:45.884355440Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:46.169703600Z][com.docker.backend.exe.ipc][W] (2f64ed99-2695) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0002347s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:46.170050600Z][com.docker.backend.exe.enginedependencies] still waiting for init control API to respond after 56m0.0245362s
+[2026-06-24T10:09:46.270609200Z][com.docker.backend.exe.ipc] (2f64ed99-2696) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:46.984999200Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:46.984578575Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:47.169886900Z][com.docker.backend.exe.ipc] (fc101646-574) 690a9c4b-BackendAPI S->C 8fec974b-desktop_extensions GET /forwards/list (2m0.0015392s): []
+[2026-06-24T10:09:47.182535600Z][com.docker.backend.exe.ipc][W] (fc101646-596) 8fec974b-desktop_extensions C<-S ConnectionClosed GET /forwards/list (10.0004175s): Get "http://ipc/forwards/list": context deadline exceeded
+[2026-06-24T10:09:47.183197200Z][com.docker.backend.exe.extensions] Get "http://ipc/forwards/list": context deadline exceeded
+[2026-06-24T10:09:47.183197200Z][com.docker.backend.exe.ipc] (fc101646-598) 8fec974b-desktop_extensions C->S desktop_extensions GET /forwards/list
+[2026-06-24T10:09:47.184331200Z][com.docker.backend.exe.ipc] (fc101646-598) 690a9c4b-BackendAPI S<-C 8fec974b-desktop_extensions GET /forwards/list
+[2026-06-24T10:09:47.271049600Z][com.docker.backend.exe.ipc][W] (2f64ed99-2696) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004404s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:47.372104600Z][com.docker.backend.exe.ipc] (2f64ed99-2697) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:47.984998400Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:47.984853098Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:48.372936700Z][com.docker.backend.exe.ipc][W] (2f64ed99-2697) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0008321s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:48.475044200Z][com.docker.backend.exe.ipc] (2f64ed99-2698) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:49.082906100Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:49.084286533Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:49.475328900Z][com.docker.backend.exe.ipc][W] (2f64ed99-2698) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0002847s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:49.576478600Z][com.docker.backend.exe.ipc] (2f64ed99-2699) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:50.182819700Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:50.184713668Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:50.577157900Z][com.docker.backend.exe.ipc][W] (2f64ed99-2699) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0006793s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:50.678206400Z][com.docker.backend.exe.ipc] (2f64ed99-2700) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:51.281864900Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:51.284357303Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:51.678512600Z][com.docker.backend.exe.ipc][W] (2f64ed99-2700) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0003062s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:51.679374900Z][com.docker.backend.exe.enginedependencies] still waiting for init control API to respond after 56m5.5338605s
+[2026-06-24T10:09:51.780677400Z][com.docker.backend.exe.ipc] (2f64ed99-2701) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:52.283401000Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:52.284871726Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:52.781958900Z][com.docker.backend.exe.ipc][W] (2f64ed99-2701) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0012815s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:52.882944900Z][com.docker.backend.exe.ipc] (2f64ed99-2702) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:53.382316200Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:53.384824469Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:53.408423600Z][com.docker.backend.exe.idle] event handler e5a21977-1883-4f96-84ec-11db6e8fc467: request: GET /v1.54/events?filters=%7B%22event%22%3A%7B%22die%22%3Atrue%2C%22start%22%3Atrue%7D%2C%22type%22%3A%7B%22container%22%3Atrue%7D%7D&since=1782295768.401019200
+[2026-06-24T10:09:53.883410000Z][com.docker.backend.exe.ipc][W] (2f64ed99-2702) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004651s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:53.983989400Z][com.docker.backend.exe.ipc] (2f64ed99-2703) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:54.481732400Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:54.483885812Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:54.727421200Z][com.docker.backend.exe.apiproxy] still waiting for the engine to respond to _ping after 2m11.3595211s: HTTP 500: 
+[2026-06-24T10:09:54.984554200Z][com.docker.backend.exe.ipc][W] (2f64ed99-2703) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0005648s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:55.084990300Z][com.docker.backend.exe.ipc] (2f64ed99-2704) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:55.484782100Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:55.484694242Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:56.085600000Z][com.docker.backend.exe.ipc][W] (2f64ed99-2704) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0006097s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:56.187036100Z][com.docker.backend.exe.ipc] (2f64ed99-2705) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:56.582508900Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:56.583892185Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:57.170940000Z][com.docker.backend.exe.ipc] (fc101646-576) 690a9c4b-BackendAPI S->C 8fec974b-desktop_extensions GET /forwards/list (2m0.001661s): []
+[2026-06-24T10:09:57.183949800Z][com.docker.backend.exe.ipc][W] (fc101646-598) 8fec974b-desktop_extensions C<-S ConnectionClosed GET /forwards/list (10.0007526s): Get "http://ipc/forwards/list": context deadline exceeded
+[2026-06-24T10:09:57.188017700Z][com.docker.backend.exe.ipc][W] (2f64ed99-2705) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0009816s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:57.194813400Z][com.docker.backend.exe.enginedependencies] still waiting for init control API to respond after 56m11.049299s
+[2026-06-24T10:09:57.194813400Z][com.docker.backend.exe.extensions] Get "http://ipc/forwards/list": context deadline exceeded
+[2026-06-24T10:09:57.195448600Z][com.docker.backend.exe.ipc] (fc101646-600) 8fec974b-desktop_extensions C->S desktop_extensions GET /forwards/list
+[2026-06-24T10:09:57.196793900Z][com.docker.backend.exe.ipc] (fc101646-600) 690a9c4b-BackendAPI S<-C 8fec974b-desktop_extensions GET /forwards/list
+[2026-06-24T10:09:57.295964200Z][com.docker.backend.exe.ipc] (2f64ed99-2706) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:57.584878400Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:57.584708215Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:57.846345700Z][com.docker.backend.exe.otelmgr][W] still waiting to toggle VM Otel collector settings in the VM after 56m14.6566391s: cannot toggle VM OTel collector, backend is not running
+[2026-06-24T10:09:58.296746400Z][com.docker.backend.exe.ipc][W] (2f64ed99-2706) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0007822s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:58.398299500Z][com.docker.backend.exe.ipc] (2f64ed99-2707) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:58.692008400Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:58.685031158Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:09:59.398770000Z][com.docker.backend.exe.ipc][W] (2f64ed99-2707) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0004705s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:09:59.500091900Z][com.docker.backend.exe.ipc] (2f64ed99-2708) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:09:59.784037100Z][com.docker.backend.exe.socketforward] [2026-06-24T10:09:59.783914100Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:10:00.500258800Z][com.docker.backend.exe.ipc][W] (2f64ed99-2708) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0001669s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:10:00.600854400Z][com.docker.backend.exe.ipc] (2f64ed99-2709) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:10:00.884998400Z][com.docker.backend.exe.socketforward] [2026-06-24T10:10:00.884401014Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+[2026-06-24T10:10:01.601209000Z][com.docker.backend.exe.ipc][W] (2f64ed99-2709) 38beee43-engines C<-S ConnectionClosed GET /ping (1.0003546s): Get "http://ipc/ping": context deadline exceeded
+[2026-06-24T10:10:01.702007500Z][com.docker.backend.exe.ipc] (2f64ed99-2710) 38beee43-engines C->S init GET /ping
+[2026-06-24T10:10:01.983708700Z][com.docker.backend.exe.socketforward] [2026-06-24T10:10:01.983779930Z][vpnkit-bridge] /run/guest-services/socketforwarder-receive-fds.sock: does not exist yet, waiting for it to be created
+---
+-------------------------------------------------------------------------------->8
+[2026-05-30T15:42:30.826472300Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-05-30T18:16:38.650153500Z][Docker Desktop.exe] backend process exited
+-------------------------------------------------------------------------------->8
+[2026-05-31T08:37:40.573343200Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-05-31T16:32:23.676566300Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-01T15:22:29.118033600Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-01T18:13:50.150797500Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-02T16:03:02.477416400Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-02T17:16:14.701193000Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-05T11:38:51.818939000Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-05T11:47:18.473332900Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-08T11:03:10.930058000Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-08T11:28:16.057759700Z][Docker Desktop.exe][E] running backend: exit status 0xffffffff
+-------------------------------------------------------------------------------->8
+[2026-06-08T11:28:27.574502600Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-08T17:05:20.336106600Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-09T09:41:47.535869500Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-09T11:37:47.923737200Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-10T09:52:24.709224800Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+-------------------------------------------------------------------------------->8
+[2026-06-10T14:41:57.829549000Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-10T17:14:02.455787900Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-11T04:55:05.059260700Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+-------------------------------------------------------------------------------->8
+[2026-06-11T10:19:28.755968900Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-11T11:03:28.750743200Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-12T08:11:39.954292800Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+-------------------------------------------------------------------------------->8
+[2026-06-15T16:13:43.332307300Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-15T17:01:54.470227000Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+6:46:38.851573700Z][Docker Desktop.exe.ipc] 7d9600f6-url-handler -> \\.\pipe\dockerBackendApiServer BackendAPI
+[2026-06-15T16:46:38.861266600Z][Docker Desktop.exe.url-handler] received request to handle url: docker-desktop://dashboard/apps/buildastreamingchatinterfacewithllmtoolusevisualisation
+[2026-06-15T16:46:38.862513400Z][Docker Desktop.exe.ipc] (c588c1ef-0) 7d9600f6-url-handler C->S BackendAPI POST /dashboard/apps/buildastreamingchatinterfacewithllmtoolusevisualisation
+[2026-06-15T16:46:38.906877500Z][Docker Desktop.exe.ipc] (c588c1ef-0) 7d9600f6-url-handler C<-S 66985682-BackendAPI POST /dashboard/apps/buildastreamingchatinterfacewithllmtoolusevisualisation (44.2613ms): OK
+[2026-06-15T16:46:38.906877500Z][Docker Desktop.exe.url-handler] project url processed
+-------------------------------------------------------------------------------->8
+[2026-06-16T06:16:28.137307600Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-16T12:29:48.762170500Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-19T08:57:21.995737200Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-19T18:21:13.062040600Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+9:10:06.797872600Z][Docker Desktop.exe.ipc] d799d33b-url-handler -> \\.\pipe\dockerBackendApiServer BackendAPI
+[2026-06-19T09:10:06.814334900Z][Docker Desktop.exe.url-handler] received request to handle url: docker-desktop://dashboard/apps/buildastreamingchatinterfacewithllmtoolusevisualisation
+[2026-06-19T09:10:06.814334900Z][Docker Desktop.exe.ipc] (a7db6ca0-0) d799d33b-url-handler C->S BackendAPI POST /dashboard/apps/buildastreamingchatinterfacewithllmtoolusevisualisation
+[2026-06-19T09:10:06.890709800Z][Docker Desktop.exe.ipc] (a7db6ca0-0) d799d33b-url-handler C<-S 10685283-BackendAPI POST /dashboard/apps/buildastreamingchatinterfacewithllmtoolusevisualisation (75.6971ms): OK
+[2026-06-19T09:10:06.891335500Z][Docker Desktop.exe.url-handler] project url processed
+-------------------------------------------------------------------------------->8
+[2026-06-20T05:45:57.091029100Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-20T10:21:35.479041400Z][Docker Desktop.exe][E] running backend: exit status 0x40010004
+-------------------------------------------------------------------------------->8
+[2026-06-23T07:46:09.964323400Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+[2026-06-23T08:01:08.943476200Z][Docker Desktop.exe] backend process exited
+-------------------------------------------------------------------------------->8
+[2026-06-24T09:13:32.923936800Z][Docker Desktop.exe] launching  C:\Program Files\Docker\Docker\resources\com.docker.backend.exe
+-------------------------------------------------------------------------------->8
+[2026-06-24T09:14:17.003316400Z][Docker Desktop.exe] backend already running, signaling show-dashboard
+-------------------------------------------------------------------------------->8
+[2026-06-24T10:01:07.391564900Z][Docker Desktop.exe] backend already running, signaling show-dashboard
