@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import useEditorStore from '../store/editorStore';
 
-const GhostText = ({ text, editor }) => {
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+const GhostText = ({ editor }) => {
+  const ghostText = useEditorStore((state) => state.ghostText);
+  const ghostTextRef = useRef(null);
 
   useEffect(() => {
-    if (editor && editor.state && text) {
-      try {
-        const { $anchor } = editor.state.selection;
-        const coords = editor.view.coordsAtPos($anchor.pos);
-        const editorContainer = document.querySelector('.editor-container');
-        const containerRect = editorContainer?.getBoundingClientRect() || { top: 0, left: 0 };
-        
-        setPosition({
-          top: coords.top - containerRect.top,
-          left: coords.left - containerRect.left
-        });
-      } catch (error) {
-        console.warn('GhostText position error:', error);
-      }
-    }
-  }, [text, editor]);
+    if (!editor || !ghostText) return;
 
-  if (!text) return null;
+    try {
+      const { $anchor } = editor.state.selection;
+      const coords = editor.view.coordsAtPos($anchor.pos);
+      
+      if (ghostTextRef.current) {
+        ghostTextRef.current.style.top = coords.top + 'px';
+        ghostTextRef.current.style.left = coords.left + 'px';
+      }
+    } catch (error) {
+      // Ignore coordinate calculation errors
+    }
+  }, [ghostText, editor]);
+
+  if (!ghostText) {
+    return null;
+  }
 
   return (
-    <span
+    <div
+      ref={ghostTextRef}
       data-testid="ghost-text"
-      className="ghost-text"
+      className="ghost-text-overlay"
       style={{
         position: 'absolute',
-        top: position.top + 'px',
-        left: position.left + 'px',
         pointerEvents: 'none',
+        userSelect: 'none',
         color: '#999',
         opacity: 0.6,
         fontStyle: 'italic',
-        userSelect: 'none',
-        whiteSpace: 'nowrap',
-        zIndex: 10
+        zIndex: 999,
+        whiteSpace: 'pre-wrap',
+        wordWrap: 'break-word',
+        maxWidth: '400px'
       }}
     >
-      {text}
-    </span>
+      {ghostText}
+    </div>
   );
 };
 

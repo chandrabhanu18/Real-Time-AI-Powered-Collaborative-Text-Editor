@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Editor from './components/Editor';
 import AIStatsPanel from './components/AIStatsPanel';
 import AIContextPanel from './components/AIContextPanel';
-import AIPresenceIndicator from './components/AIPresenceIndicator';
 import './App.css';
 
 function App() {
@@ -18,7 +17,6 @@ function App() {
       <div className="app-container">
         <div className="main-content">
           <Editor docId={docId} />
-          <AIPresenceIndicator />
         </div>
 
         <aside className="sidebar">

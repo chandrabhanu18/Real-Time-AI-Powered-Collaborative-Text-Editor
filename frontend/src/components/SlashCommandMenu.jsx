@@ -63,7 +63,23 @@ const SlashCommandMenu = ({ editor, onCommandSelect }) => {
     }
   };
 
-  if (!slashMenuOpen) return null;
+  if (!slashMenuOpen || !editor) return null;
+
+  // Calculate position based on cursor
+  let menuTop = '20px';
+  let menuLeft = '0px';
+  try {
+    const { $anchor } = editor.state.selection;
+    const coords = editor.view.coordsAtPos($anchor.pos);
+    const editorContainer = document.querySelector('.ProseMirror');
+    if (editorContainer) {
+      const containerRect = editorContainer.getBoundingClientRect();
+      menuTop = (coords.top - containerRect.top + 24) + 'px';
+      menuLeft = (coords.left - containerRect.left) + 'px';
+    }
+  } catch (e) {
+    // Fallback to default position
+  }
 
   return (
     <div
@@ -71,8 +87,8 @@ const SlashCommandMenu = ({ editor, onCommandSelect }) => {
       className="slash-command-menu"
       style={{
         position: 'absolute',
-        top: slashMenuPosition?.line ? '20px' : '0px',
-        left: '0px',
+        top: menuTop,
+        left: menuLeft,
         background: 'white',
         border: '1px solid #ccc',
         borderRadius: '8px',

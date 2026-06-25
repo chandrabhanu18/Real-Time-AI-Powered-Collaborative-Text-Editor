@@ -31,6 +31,20 @@ code {
   user-select: none;
 }
 
+.ghost-text-overlay {
+  color: #999;
+  opacity: 0.6;
+  font-style: italic;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ghost-text-decoration {
+  color: #999;
+  opacity: 0.6;
+  font-style: italic;
+}
+
 .ai-suggestion-accepted {
   background-color: #fffacd;
   padding: 0 2px;

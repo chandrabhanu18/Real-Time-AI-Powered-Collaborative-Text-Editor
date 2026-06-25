@@ -163,64 +163,83 @@ class LLMProvider {
       stream: true
     };
 
+    const requestConfig = {
+      responseType: 'stream',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'text/event-stream'
+      },
+      timeout: 60000
+    };
+
     let response;
     try {
-      response = await axios.post(
-        `${this.baseUrl}/chat/completions`,
-        chatPayload,
-        {
-          responseType: 'stream',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          timeout: 10000
-        }
-      );
+      response = await axios.post(`${this.baseUrl}/chat/completions`, chatPayload, requestConfig);
     } catch (error) {
-      if (error.response?.status === 404 || error.code === 'ECONNABORTED') {
-        response = await axios.post(
-          `${this.baseUrl}/completions`,
-          completionPayload,
-          {
-            responseType: 'stream',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            timeout: 10000
-          }
-        );
+      const status = error.response?.status;
+      if (status === 404 || status === 405 || error.code === 'ECONNABORTED' || error.code === 'ECONNRESET') {
+        response = await axios.post(`${this.baseUrl}/completions`, completionPayload, requestConfig);
       } else {
         throw error;
       }
     }
 
     return new Promise((resolve, reject) => {
-      response.data.on('data', (chunk) => {
-        const lines = chunk.toString().split('\n');
-        for (const line of lines) {
-          const text = line.trim();
-          if (!text) continue;
-          const jsonText = text.replace(/^data:\s*/, '');
-          if (jsonText === '[DONE]') continue;
+      let buffer = '';
+      let finished = false;
 
-          try {
-            const event = JSON.parse(jsonText);
-            const content =
-              event.choices?.[0]?.delta?.content ||
-              event.choices?.[0]?.message?.content ||
-              event.choices?.[0]?.text ||
-              event.output?.[0]?.content?.[0]?.text;
+      const finish = () => {
+        if (!finished) {
+          finished = true;
+          resolve();
+        }
+      };
 
-            if (content) {
-              onChunk(content);
-            }
-          } catch (e) {
-            // Ignore parse errors
+      const processLine = (line) => {
+        const text = line.trim();
+        if (!text) return;
+        const jsonText = text.replace(/^data:\s*/, '');
+        if (jsonText === '[DONE]') {
+          finish();
+          return;
+        }
+
+        try {
+          const event = JSON.parse(jsonText);
+          const content =
+            event.choices?.[0]?.delta?.content ||
+            event.choices?.[0]?.message?.content ||
+            event.choices?.[0]?.text ||
+            event.output?.[0]?.content?.[0]?.text;
+
+          if (content) {
+            onChunk(content);
           }
+        } catch (e) {
+          // Ignore parse errors from partial or unsupported events
+        }
+      };
+
+      response.data.on('data', (chunk) => {
+        buffer += chunk.toString('utf8');
+        const lines = buffer.split(/\r?\n/);
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          processLine(line);
         }
       });
 
-      response.data.on('end', resolve);
+      response.data.on('end', () => {
+        if (buffer.trim()) {
+          const lines = buffer.split(/\r?\n/);
+          for (const line of lines) {
+            processLine(line);
+          }
+        }
+        finish();
+      });
+
       response.data.on('error', reject);
     });
   }
