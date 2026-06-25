@@ -14,6 +14,7 @@ import AIService from '../services/aiService';
 import PresenceCursors from './PresenceCursors';
 import GhostText from './GhostText';
 import SlashCommandMenu from './SlashCommandMenu';
+import AIPresenceIndicator from './AIPresenceIndicator';
 import AISuggestionMark from '../extensions/AISuggestionMark';
 
 // Ghost Text Handler Extension
@@ -279,6 +280,30 @@ const Editor = ({ docId = 'default-doc' }) => {
       setAIPresence(false);
     }
   };
+
+  // Accept the currently shown ghost text (used by keyboard shortcut and tests)
+  const acceptGhostText = useCallback(() => {
+    const { ghostText, setGhostText, incrementAccepted, setAIPresence } = useEditorStore.getState();
+    if (!editor || !ghostText) return;
+
+    const { $anchor } = editor.state.selection;
+    const startPos = $anchor.pos;
+
+    editor.chain()
+      .insertContent(ghostText)
+      .run();
+
+    const endPos = startPos + ghostText.length;
+    editor.chain()
+      .setTextSelection({ from: startPos, to: endPos })
+      .setMark('aiSuggestion')
+      .setTextSelection(endPos)
+      .run();
+
+    setGhostText('');
+    incrementAccepted();
+    setAIPresence(false);
+  }, [editor]);
 
   // Ensure test hooks are exposed after functions are defined
   useEffect(() => {

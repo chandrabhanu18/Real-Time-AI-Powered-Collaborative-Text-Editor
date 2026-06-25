@@ -1,7 +1,11 @@
 import io from 'socket.io-client';
 import * as Y from 'yjs';
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:3001';
+const runtimeHost = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
+const runtimeProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
+const defaultPort = 3002;
+const envWS = import.meta.env.VITE_WS_URL;
+const WS_URL = envWS || `${runtimeProtocol}://${runtimeHost}:${defaultPort}`;
 
 export class WSProvider {
   constructor(docId, ydoc) {
