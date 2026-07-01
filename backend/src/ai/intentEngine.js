@@ -17,7 +17,7 @@ Your task is to continue the sentence seamlessly. DO NOT repeat any of the exist
 Rewrite this text to be more concise and professional. Return ONLY the rewritten text without any explanation.`,
 
   expand: (context) => `You are a helpful writing assistant. The user wants to expand the following text:
-"""${context.selectedText}"""
+"""${context.selectedText || context.precedingText}"""
 
 Expand this text with more details, examples, or explanation. Maintain the original tone and style. Return ONLY the expanded text.`,
 
@@ -60,7 +60,12 @@ export class IntentEngine {
     }
 
     if (context.cursorPosition > context.documentContent.length) {
-      throw new Error('Cursor position exceeds document length');
+      // Clamp cursor position to end of document instead of failing.
+      // This can happen when the editor and plain-text offsets diverge
+      // due to node/markup differences; clamping preserves robustness.
+      // Log a warning for observability.
+      logger.warn(`Cursor position (${context.cursorPosition}) exceeds document length (${context.documentContent.length}); clamping to document end.`);
+      context.cursorPosition = context.documentContent.length;
     }
 
     return true;

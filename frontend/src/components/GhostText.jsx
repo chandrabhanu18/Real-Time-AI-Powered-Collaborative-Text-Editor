@@ -8,17 +8,28 @@ const GhostText = ({ editor }) => {
   useEffect(() => {
     if (!editor || !ghostText) return;
 
-    try {
-      const { $anchor } = editor.state.selection;
-      const coords = editor.view.coordsAtPos($anchor.pos);
-      
-      if (ghostTextRef.current) {
-        ghostTextRef.current.style.top = coords.top + 'px';
-        ghostTextRef.current.style.left = coords.left + 'px';
+    const updatePosition = () => {
+      try {
+        const { $anchor } = editor.state.selection;
+        if (!$anchor) return;
+        const coords = editor.view.coordsAtPos($anchor.pos);
+        if (ghostTextRef.current) {
+          ghostTextRef.current.style.top = coords.top + 'px';
+          ghostTextRef.current.style.left = coords.left + 'px';
+        }
+      } catch (error) {
+        // Ignore coordinate calculation errors
       }
-    } catch (error) {
-      // Ignore coordinate calculation errors
-    }
+    };
+
+    updatePosition();
+    editor.on('selectionUpdate', updatePosition);
+
+    return () => {
+      if (editor) {
+        editor.off('selectionUpdate', updatePosition);
+      }
+    };
   }, [ghostText, editor]);
 
   if (!ghostText) {

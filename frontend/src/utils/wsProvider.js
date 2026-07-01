@@ -5,16 +5,31 @@ const runtimeHost = typeof window !== 'undefined' ? window.location.hostname : '
 const runtimeProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
 const defaultPort = 3002;
 const envWS = import.meta.env.VITE_WS_URL;
-const WS_URL = envWS || `${runtimeProtocol}://${runtimeHost}:${defaultPort}`;
+// Derive a sensible WS URL: prefer explicit VITE_WS_URL; otherwise derive port
+// from VITE_API_BASE_URL when available, falling back to defaultPort.
+let resolvedPort = defaultPort;
+const apiBase = import.meta.env.VITE_API_BASE_URL;
+try {
+  if (apiBase) {
+    const parsed = new URL(apiBase);
+    if (parsed.port) resolvedPort = parsed.port;
+  }
+} catch (e) {
+  // ignore URL parse errors and use defaultPort
+}
+const WS_URL = envWS || `${runtimeProtocol}://${runtimeHost}:${resolvedPort}`;
 
 export class WSProvider {
-  constructor(docId, ydoc) {
+  constructor(docId, ydoc, userName = 'UserGuest', userColor = '#4ECDC4') {
     this.docId = docId;
     this.ydoc = ydoc;
+    this.userName = userName;
+    this.userColor = userColor;
     this.socket = null;
     this.awareness = null;
     this.localAwareness = {};
     this.listeners = [];
+    this.userAssignedListeners = [];
     this.suppressRemoteUpdates = false;
   }
 
@@ -37,8 +52,20 @@ export class WSProvider {
 
         this.socket.on('connect', () => {
           console.log('WebSocket connected');
-          this.socket.emit('join-document', { docId: this.docId });
+          this.socket.emit('join-document', {
+            docId: this.docId,
+            name: this.userName,
+            color: this.userColor
+          });
           resolve();
+        });
+
+        this.socket.on('user-assigned', (data) => {
+          if (data?.userName && data?.color) {
+            this.userName = data.userName;
+            this.userColor = data.color;
+            this.userAssignedListeners.forEach((listener) => listener(data));
+          }
         });
 
         this.socket.on('init-sync', (data) => {
@@ -88,6 +115,10 @@ export class WSProvider {
 
   onAwareness(callback) {
     this.listeners.push(callback);
+  }
+
+  onUserAssigned(callback) {
+    this.userAssignedListeners.push(callback);
   }
 
   notifyListeners(type, data) {

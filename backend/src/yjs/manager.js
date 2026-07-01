@@ -75,15 +75,16 @@ export class AwarenessManager {
 
   static addClient(docId, clientId, awareness) {
     const session = this.getOrCreateSession(docId);
+    const assignedName = `User${session.clients.size + 1}`;
     session.clients.set(clientId, {
       id: clientId,
-      name: awareness.name || `User${Math.random().toString(36).substr(2, 5)}`,
+      name: assignedName,
       color: awareness.color || this.generateColor(),
       cursor: awareness.cursor || 0,
       selection: awareness.selection || null,
       timestamp: Date.now()
     });
-    logger.info(`Client ${clientId} added to document ${docId}`);
+    logger.info(`Client ${clientId} added to document ${docId} as ${assignedName}`);
     return session.clients.get(clientId);
   }
 

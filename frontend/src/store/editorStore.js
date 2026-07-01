@@ -20,6 +20,10 @@ const useEditorStore = create((set, get) => ({
   contextChars: 0,
   setContext: (intent, chars) => set({ contextIntent: intent, contextChars: chars }),
   
+  userName: 'UserGuest',
+  userColor: '#4ECDC4',
+  setUserInfo: (userName, userColor) => set({ userName, userColor }),
+  
   aiPresenceActive: false,
   aiPresencePosition: null,
   setAIPresence: (active, position = null) => set({ aiPresenceActive: active, aiPresencePosition: position })

@@ -17,6 +17,17 @@ import SlashCommandMenu from './SlashCommandMenu';
 import AIPresenceIndicator from './AIPresenceIndicator';
 import AISuggestionMark from '../extensions/AISuggestionMark';
 
+const getPlainTextCursorPosition = (editor) => {
+  const { selection, doc } = editor.state;
+  const position = selection.empty ? selection.from : selection.to;
+  return doc.textBetween(0, position, '\n').length;
+};
+
+const getPlainTextSelectedText = (editor) => {
+  const { selection, doc } = editor.state;
+  return selection.empty ? '' : doc.textBetween(selection.from, selection.to, '\n');
+};
+
 // Ghost Text Handler Extension
 const GhostTextHandler = Extension.create({
   name: 'ghostTextHandler',
@@ -111,9 +122,9 @@ const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'
 
 const Editor = ({ docId = 'default-doc' }) => {
   const ydoc = useRef(new Y.Doc());
-  const provider = useRef(new WSProvider(docId, ydoc.current));
-  const [userName] = useState(`User${Math.random().toString(36).substr(2, 5)}`);
+  const [userName] = useState(`User${Math.floor(Math.random() * 10000)}`);
   const [userColor] = useState(COLORS[Math.floor(Math.random() * COLORS.length)]);
+  const provider = useRef(new WSProvider(docId, ydoc.current, userName, userColor));
   const lastKnownGhostTextRef = useRef('');
   const [isReady, setIsReady] = useState(false);
 
@@ -126,7 +137,9 @@ const Editor = ({ docId = 'default-doc' }) => {
     setContext,
     setAIPresence,
     slashMenuOpen,
-    slashMenuPosition
+    slashMenuPosition,
+    setSlashMenuOpen,
+    setUserInfo
   } = useEditorStore();
 
   const editor = useEditor({
@@ -157,18 +170,25 @@ const Editor = ({ docId = 'default-doc' }) => {
   useEffect(() => {
     const initProvider = async () => {
       try {
-        // Connect to WebSocket server
+        setUserInfo(userName, userColor);
+
         await provider.current.connect();
 
+        provider.current.onUserAssigned(({ userName: assignedName, color: assignedColor }) => {
+          setUserInfo(assignedName, assignedColor);
+        });
+
         provider.current.onAwareness(({ type, data }) => {
-          if (type === 'awareness' && data) {
+          if (type === 'awareness' && Array.isArray(data)) {
             const cursors = {};
             data.forEach((client) => {
-              cursors[`user-cursor-${client.name}`] = {
-                position: client.cursor,
-                name: client.name,
-                color: client.color
-              };
+              if (client.id && client.name) {
+                cursors[`user-cursor-${client.name}`] = {
+                  position: client.cursor,
+                  name: client.name,
+                  color: client.color
+                };
+              }
             });
             setRemoteCursors(cursors);
           }
@@ -194,43 +214,51 @@ const Editor = ({ docId = 'default-doc' }) => {
   
 
   const updateContext = useCallback((ed) => {
-    const { $anchor } = ed.state.selection;
-    const text = ed.getText();
-    setContext('continue_paragraph', text.length);
+    const text = ed.state.doc.textContent;
+    const cursorPosition = getPlainTextCursorPosition(ed);
+    const contextWindowSize = 500;
+    const start = Math.max(0, cursorPosition - contextWindowSize);
+    const end = Math.min(text.length, cursorPosition + contextWindowSize);
+    const precedingText = text.substring(start, cursorPosition);
+    const followingText = text.substring(cursorPosition, end);
+    setContext('continue_paragraph', precedingText.length + followingText.length);
 
     if (provider.current && isReady) {
       provider.current.updateAwareness({
-        cursor: $anchor.pos,
-        name: userName,
-        color: userColor
+        cursor: cursorPosition,
+        name: provider.current.userName || userName,
+        color: provider.current.userColor || userColor
       });
     }
   }, [isReady, setContext, userName, userColor]);
 
   const handleSlashCommand = (ed) => {
-    const { $anchor } = ed.state.selection;
-    const docText = ed.getText();
-    const beforeCursor = docText.substring(0, $anchor.pos);
+    const { selection } = ed.state;
+    if (!selection) {
+      setSlashMenuOpen(false);
+      return;
+    }
+
+    const docText = ed.state.doc.textContent;
+    const cursorPosition = getPlainTextCursorPosition(ed);
+    const beforeCursor = docText.substring(0, cursorPosition);
 
     const lastNewline = beforeCursor.lastIndexOf('\n');
     const textAfterLastNewline = beforeCursor.substring(lastNewline + 1);
 
-    if (textAfterLastNewline.match(/^\/\w*$/)) {
-      useEditorStore.setState({
-        slashMenuOpen: true,
-        slashMenuPosition: { line: $anchor.pos }
-      });
+    const match = textAfterLastNewline.match(/^\/(\w*)$/);
+    if (match) {
+      setSlashMenuOpen(true, { pos: $anchor.pos });
     } else {
-      useEditorStore.setState({ slashMenuOpen: false });
+      setSlashMenuOpen(false);
     }
   };
 
   const triggerAICompletion = async (intent) => {
     if (!editor) return;
 
-    const documentContent = editor.getText();
-    const { $anchor } = editor.state.selection;
-    const cursorPos = $anchor.pos;
+    const documentContent = editor.state.doc.textContent;
+    const cursorPos = getPlainTextCursorPosition(editor);
 
     const contextWindowSize = 500;
     const precedingStart = Math.max(0, cursorPos - contextWindowSize);
@@ -239,14 +267,11 @@ const Editor = ({ docId = 'default-doc' }) => {
     const precedingText = documentContent.substring(precedingStart, cursorPos);
     const followingText = documentContent.substring(cursorPos, followingEnd);
 
-    const selection = editor.state.selection;
-    const selectedText =
-      selection.from !== selection.to
-        ? documentContent.substring(selection.from, selection.to)
-        : '';
+    const selectedText = getPlainTextSelectedText(editor);
 
     setGhostText('');
     lastKnownGhostTextRef.current = '';
+    setContext(intent, precedingText.length + followingText.length + selectedText.length);
     setAIPresence(true, cursorPos);
 
     try {
@@ -264,8 +289,7 @@ const Editor = ({ docId = 'default-doc' }) => {
           setGhostText(lastKnownGhostTextRef.current);
         },
         () => {
-          console.log('AI completion finished');
-          setAIPresence(false);
+          setAIPresence(true, cursorPos);
         },
         (error) => {
           console.error('AI error:', error);
@@ -287,7 +311,8 @@ const Editor = ({ docId = 'default-doc' }) => {
     if (!editor || !ghostText) return;
 
     const { $anchor } = editor.state.selection;
-    const startPos = $anchor.pos;
+    const startPos = $anchor ? $anchor.pos : null;
+    if (startPos === null) return;
 
     editor.chain()
       .insertContent(ghostText)
@@ -314,7 +339,13 @@ const Editor = ({ docId = 'default-doc' }) => {
       window.__EDITOR_TEST_HOOKS__.triggerAICompletion = (intent) => triggerAICompletion(intent);
       window.__EDITOR_TEST_HOOKS__.acceptGhostText = acceptGhostText;
       window.__EDITOR_TEST_HOOKS__.setAIPresence = setAIPresence;
-      window.__EDITOR_TEST_HOOKS__.getGhostText = () => window.__EDITOR_TEST_HOOKS__.editor ? window.__EDITOR_TEST_HOOKS__.editor.getText() : '';
+      window.__EDITOR_TEST_HOOKS__.getGhostText = () => {
+        try {
+          return useEditorStore.getState().ghostText || '';
+        } catch (e) {
+          return '';
+        }
+      };
     }
     return () => {};
   }, [editor, setGhostText, triggerAICompletion, acceptGhostText, setAIPresence]);

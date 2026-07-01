@@ -12,6 +12,7 @@ router.get('/health', (req, res) => {
 router.post('/ai/complete', async (req, res) => {
   try {
     const {
+      prompt,
       documentContent,
       cursorPosition,
       precedingText,
@@ -20,25 +21,40 @@ router.post('/ai/complete', async (req, res) => {
       selectedText
     } = req.body;
 
-    // Validate request
-    IntentEngine.validateContext({
-      intent,
-      documentContent,
-      cursorPosition
-    });
-
-    if (!intent) {
-      return res.status(400).json({ error: 'Intent is required' });
+    const hasLegacyPrompt = typeof prompt === 'string' && prompt.trim().length > 0;
+    if (!intent && !hasLegacyPrompt) {
+      return res.status(400).json({ error: 'Intent or prompt is required' });
     }
 
-    const context = {
-      precedingText: precedingText || '',
-      followingText: followingText || '',
-      selectedText: selectedText || '',
-      documentContent
-    };
+    let promptText;
+    if (hasLegacyPrompt && !intent) {
+      promptText = prompt;
+    } else {
+      const context = {
+        precedingText: precedingText || '',
+        followingText: followingText || '',
+        selectedText: selectedText || '',
+        documentContent: documentContent || ''
+      };
 
-    const prompt = IntentEngine.getPrompt(intent, context);
+      // Validate request
+      IntentEngine.validateContext({
+        intent,
+        documentContent: context.documentContent,
+        cursorPosition,
+        selectedText: context.selectedText
+      });
+
+      if (intent === 'rewrite_selection' && !context.selectedText) {
+        return res.status(400).json({ error: 'selectedText is required for rewrite_selection' });
+      }
+
+      if (intent === 'translate' && !context.selectedText) {
+        return res.status(400).json({ error: 'selectedText is required for translate' });
+      }
+
+      promptText = IntentEngine.getPrompt(intent, context);
+    }
 
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
@@ -46,11 +62,11 @@ router.post('/ai/complete', async (req, res) => {
     res.setHeader('X-Accel-Buffering', 'no');
     res.flushHeaders();
 
-    logger.info(`AI completion request: intent=${intent}, docLength=${documentContent.length}`);
+    logger.info(`AI completion request: intent=${intent}, docLength=${(documentContent || '').length}`);
 
     let buffer = '';
 
-    await llmProvider.streamCompletion(prompt, (chunk) => {
+    await llmProvider.streamCompletion(promptText, (chunk) => {
       buffer += chunk;
       res.write(`data: ${JSON.stringify({ token: chunk })}\n\n`);
     });

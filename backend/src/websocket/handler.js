@@ -10,7 +10,7 @@ export function handleWebSocketConnection(socket) {
   logger.info(`WebSocket client connected: ${clientId}`);
 
   socket.on('join-document', (data) => {
-    const { docId } = data;
+    const { docId, name, color } = data;
     currentDocId = docId;
 
     if (!connections.has(docId)) {
@@ -20,17 +20,30 @@ export function handleWebSocketConnection(socket) {
     connections.get(docId).add(socket);
     YjsManager.incrementClientCount(docId);
 
+    const clientData = AwarenessManager.addClient(docId, clientId, {
+      name,
+      color,
+      cursor: 0
+    });
+
     const initialState = YjsManager.encodeStateAsUpdate(docId);
     socket.emit('init-sync', {
       state: Array.from(new Uint8Array(initialState))
     });
 
-    const clients = AwarenessManager.getClients(docId);
-    socket.emit('awareness-update', {
-      clients: clients.filter(c => c.id !== clientId)
+    socket.emit('user-assigned', {
+      userName: clientData.name,
+      color: clientData.color
     });
 
-    logger.info(`Client ${clientId} joined document ${docId}`);
+    const clients = AwarenessManager.getClients(docId);
+    connections.get(docId).forEach((clientSocket) => {
+      clientSocket.emit('awareness-update', {
+        clients
+      });
+    });
+
+    logger.info(`Client ${clientId} joined document ${docId} as ${clientData.name}`);
   });
 
   socket.on('update', (data) => {

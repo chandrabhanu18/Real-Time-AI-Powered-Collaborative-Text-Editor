@@ -1,4 +1,8 @@
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /**
  * End-to-End Browser Test Suite
@@ -17,10 +21,29 @@ import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
  */
 
 describe('End-to-End Browser Tests', () => {
-  let backendUrl = 'http://localhost:3001';
+  let backendUrl = 'http://localhost:3002';
   let frontendUrl = 'http://localhost:5173';
 
   beforeAll(async () => {
+    const fs = await import('fs/promises');
+    const envContent = await fs.readFile(path.join(repoRoot, '.env'), 'utf8');
+    const envEntries = envContent
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#'))
+      .map((line) => line.split('='))
+      .reduce((acc, [key, ...value]) => {
+        acc[key] = value.join('=');
+        return acc;
+      }, {});
+
+    backendUrl = process.env.VITE_API_BASE_URL || envEntries.VITE_API_BASE_URL || `http://localhost:${envEntries.BACKEND_PORT || '3002'}`;
+    frontendUrl = process.env.FRONTEND_PORT
+      ? `http://localhost:${process.env.FRONTEND_PORT}`
+      : envEntries.FRONTEND_PORT
+      ? `http://localhost:${envEntries.FRONTEND_PORT}`
+      : 'http://localhost:5173';
+
     // Verify backend is running
     try {
       const response = await fetch(`${backendUrl}/health`);
@@ -82,7 +105,7 @@ describe('End-to-End Browser Tests', () => {
       // Check if frontend build directory exists
       const fs = await import('fs/promises');
       try {
-        await fs.access('./frontend/dist');
+        await fs.access(path.join(repoRoot, 'frontend', 'dist'));
       } catch (error) {
         throw new Error('Frontend not built. Run: cd frontend && npm run build');
       }
@@ -93,13 +116,13 @@ describe('End-to-End Browser Tests', () => {
     it('should use Ollama as default provider', async () => {
       // Verify llmProvider.js defaults to Ollama
       const fs = await import('fs/promises');
-      const content = await fs.readFile('./backend/src/ai/llmProvider.js', 'utf8');
+      const content = await fs.readFile(path.join(repoRoot, 'backend', 'src', 'ai', 'llmProvider.js'), 'utf8');
       expect(content).toContain("process.env.LLM_API_PROVIDER || 'ollama'");
     });
 
     it('.env should have Ollama as default provider', async () => {
       const fs = await import('fs/promises');
-      const content = await fs.readFile('./.env', 'utf8');
+      const content = await fs.readFile(path.join(repoRoot, '.env'), 'utf8');
       const lines = content.split('\n');
       const providerLine = lines.find(l => l.includes('LLM_API_PROVIDER='));
       expect(providerLine).toContain('ollama');
@@ -107,7 +130,7 @@ describe('End-to-End Browser Tests', () => {
 
     it('docker-compose.yml should default to Ollama', async () => {
       const fs = await import('fs/promises');
-      const content = await fs.readFile('./docker-compose.yml', 'utf8');
+      const content = await fs.readFile(path.join(repoRoot, 'docker-compose.yml'), 'utf8');
       expect(content).toContain('LLM_API_PROVIDER=${LLM_API_PROVIDER:-ollama}');
     });
   });
