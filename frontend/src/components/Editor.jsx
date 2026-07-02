@@ -239,6 +239,7 @@ const Editor = ({ docId = 'default-doc' }) => {
       return;
     }
 
+    const { $anchor } = selection;
     const docText = ed.state.doc.textContent;
     const cursorPosition = getPlainTextCursorPosition(ed);
     const beforeCursor = docText.substring(0, cursorPosition);
@@ -285,6 +286,8 @@ const Editor = ({ docId = 'default-doc' }) => {
           intent
         },
         (token) => {
+          // Debug: log incoming tokens for visibility during tests
+          try { console.debug('AI token received:', token); } catch (e) {}
           lastKnownGhostTextRef.current += token;
           setGhostText(lastKnownGhostTextRef.current);
         },
